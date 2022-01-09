@@ -29,7 +29,7 @@ function isArray(target) {
  * @param target 对象或数组
  * @returns
  */
-function parserProperty(exp, target) {
+function _parserProperty(exp, target) {
   const squareBracketsRegExp = /^\[(\"|\'|\`)?([_?a-zA-Z0-9]+)(\"|\'|\`)?\]$/g;
   const arrRegExp = /^([_?a-zA-Z0-9]+)(\[(\"|\'|\`)?([_?a-zA-Z0-9]+)(\"|\'|\`)?\])/g;
   if (!isObject(target) && !isArray(target)) {
@@ -45,7 +45,7 @@ function parserProperty(exp, target) {
   if (squareBracketsRegExp.test(exp)) {
     // [key/index]
     const $2 = RegExp.$2;
-    return parserProperty($2, target);
+    return _parserProperty($2, target);
   }
 
   // data[0]/data[0].fileUrl
@@ -58,7 +58,7 @@ function parserProperty(exp, target) {
     // 再次匹配得到下一级对象
     squareBracketsRegExp.test(res[2]);
     const $2 = RegExp.$2;
-    return parserProperty(otherExp, target[res[1]][$2]);
+    return _parserProperty(otherExp, target[res[1]][$2]);
   }
   // 普通属性直接取值
   if (exp.indexOf('.') === -1) {
@@ -68,7 +68,23 @@ function parserProperty(exp, target) {
   // a.b.c
   const arr = exp.split('.');
   const value = target[arr.shift()];
-  return parserProperty(arr.join('.'), value);
+  return _parserProperty(arr.join('.'), value);
+}
+
+/**
+ * 通过表达式获取属性值
+ * @param exp 属性取值表达式
+ * @param target 对象或数组
+ * @returns
+ */
+function parserProperty(exp, target) {
+  if (typeof exp !== 'string') {
+    throw new Error('第一个参数必须为字符串形式，如："userInfo.userName"');
+  }
+  if (!isObject(target) && !isArray(target)) {
+    throw new Error('第二个参数必须为一个对象或数组');
+  }
+  return _parserProperty(exp, target);
 }
 
 module.exports = parserProperty;
