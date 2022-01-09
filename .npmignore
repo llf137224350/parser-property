@@ -1,0 +1,6 @@
+.*
+sitemap.json
+tsconfig.json
+tslint.json
+yarn.lock
+yarn-error.log
