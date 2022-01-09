@@ -33,7 +33,7 @@ function parserProperty(exp, target) {
   const squareBracketsRegExp = /^\[(\"|\'|\`)?([_?a-zA-Z0-9]+)(\"|\'|\`)?\]$/g;
   const arrRegExp = /^([_?a-zA-Z0-9]+)(\[(\"|\'|\`)?([_?a-zA-Z0-9]+)(\"|\'|\`)?\])/g;
   if (!isObject(target) && !isArray(target)) {
-    if (!exp && target === undefined) {
+    if (target === undefined) {
       // 不是对象或数组，还有表达式没有匹配完成，直接返回undefined
       return undefined;
     }

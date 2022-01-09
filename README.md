@@ -1,8 +1,9 @@
 # 解析属性表达式
 
 > 解析属性表达式从对象中读取属性
-
 ```javascript
+const parserProperty = require("parser-property");
+
 const obj = {
   message: '操作成功',
   code: 0,

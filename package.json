@@ -1,6 +1,6 @@
 {
-  "name": "parser_property",
-  "version": "1.0.0",
+  "name": "parser-property",
+  "version": "1.0.1",
   "description": "解析属性",
   "main": "./index.js",
   "scripts": {
