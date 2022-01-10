@@ -5,7 +5,7 @@ const obj = {
     a: [
       {
         b: 'c',
-        d: {
+        _d_c_1: {
           e: [1]
         }
       }
@@ -110,7 +110,7 @@ test('读取二级对象属性-1', () => {
   expect(parserProperty('obj1.a', obj)).toEqual([
     {
       b: 'c',
-      d: {
+      _d_c_1: {
         e: [1]
       }
     }
@@ -122,7 +122,7 @@ test('读取二级对象属性-2', () => {
   const parserProperty = require('../');
   expect(parserProperty('obj1.a[0]', obj)).toEqual({
     b: 'c',
-    d: {
+    _d_c_1: {
       e: [1]
     }
   });
@@ -130,15 +130,15 @@ test('读取二级对象属性-2', () => {
 
 test('读取多级对象属性 - 1', () => {
   const parserProperty = require('../');
-  expect(parserProperty('obj1.a[0].d.e[0]', obj)).toBe(1);
+  expect(parserProperty('obj1.a[0]._d_c_1.e[0]', obj)).toBe(1);
 });
 
 test('读取多级对象属性 - 2', () => {
   const parserProperty = require('../');
-  expect(parserProperty('obj1.a[0].d.e[1]', obj)).toBe(undefined);
+  expect(parserProperty('obj1.a[0]._d_c_1.e[1]', obj)).toBe(undefined);
 });
 
 test('读取多级对象属性 - 3', () => {
   const parserProperty = require('../');
-  expect(parserProperty('obj1.a[0].d.e[0].c', obj)).toBe(undefined);
+  expect(parserProperty('obj1.a[0]._d_c_1.e[0].c', obj)).toBe(undefined);
 });

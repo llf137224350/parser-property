@@ -30,8 +30,8 @@ function isArray(target) {
  * @returns
  */
 function _parserProperty(exp, target) {
-  const squareBracketsRegExp = /^\[(\"|\'|\`)?([_?a-zA-Z0-9]+)(\"|\'|\`)?\]$/g;
-  const arrRegExp = /^([_?a-zA-Z0-9]+)(\[(\"|\'|\`)?([_?a-zA-Z0-9]+)(\"|\'|\`)?\])/g;
+  const squareBracketsRegExp = /^\[(\"|\'|\`)?([_a-zA-Z0-9]+)(\"|\'|\`)?\]$/g;
+  const arrRegExp = /^([_a-zA-Z0-9]+)(\[(\"|\'|\`)?([_a-zA-Z0-9]+)(\"|\'|\`)?\])/g;
   if (!isObject(target) && !isArray(target)) {
     if (target === undefined) {
       // 不是对象或数组，还有表达式没有匹配完成，直接返回undefined
@@ -78,6 +78,9 @@ function _parserProperty(exp, target) {
  * @returns
  */
 function parserProperty(exp, target) {
+  if (exp === '') {
+    return target;
+  }
   if (typeof exp !== 'string') {
     throw new Error('第一个参数必须为字符串形式，如："userInfo.userName"');
   }
