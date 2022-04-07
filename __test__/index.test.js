@@ -142,3 +142,34 @@ test('读取多级对象属性 - 3', () => {
   const parserProperty = require('../');
   expect(parserProperty('obj1.a[0]._d_c_1.e[0].c', obj)).toBe(undefined);
 });
+
+const otherObj = {
+  a: [0, [
+    {
+      b: {
+        c: 2,
+        d: [0, {
+          e: {
+            f: 'hello',
+            'hello_world':'hello_world'
+          }
+        }
+        ]
+      }
+    }]]
+};
+
+test('复杂表达式 - 1', () => {
+  const parserProperty = require('../');
+  expect(parserProperty('a[1][0].b.d[1].e["hello_world"]', otherObj)).toBe('hello_world');
+});
+
+test('复杂表达式 - 2', () => {
+  const parserProperty = require('../');
+  expect(parserProperty('a[1][`0`].b.d["1"].e["f"]', otherObj)).toBe('hello');
+});
+
+test('复杂表达式 - 3', () => {
+  const parserProperty = require('../');
+  expect(parserProperty('a[1][`0`].b.d["0"]', otherObj)).toBe(0);
+});

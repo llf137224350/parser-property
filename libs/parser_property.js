@@ -10,6 +10,7 @@ function isObject(target) {
   }
   return typeof target === 'object' && !isArray(target);
 }
+
 /**
  * 是否为一个数组
  * @param target 对象
@@ -30,7 +31,10 @@ function isArray(target) {
  * @returns
  */
 function _parserProperty(exp, target) {
+  debugger
+  // 方括号
   const squareBracketsRegExp = /^\[(\"|\'|\`)?([_a-zA-Z0-9]+)(\"|\'|\`)?\]$/g;
+  const squareBracketsStartRegExp = /^\[(\'|\`|\")?(\d+|\w+)(\'|\`|\")?\]/g;
   const arrRegExp = /^([_a-zA-Z0-9]+)(\[(\"|\'|\`)?([_a-zA-Z0-9]+)(\"|\'|\`)?\])/g;
   if (!isObject(target) && !isArray(target)) {
     if (target === undefined) {
@@ -47,18 +51,23 @@ function _parserProperty(exp, target) {
     const $2 = RegExp.$2;
     return _parserProperty($2, target);
   }
-
   // data[0]/data[0].fileUrl
-  const res = arrRegExp.exec(exp);
+  const res = arrRegExp.exec(exp) || squareBracketsStartRegExp.exec(exp);
   if (res && res.length > 2) {
-    let otherExp = exp.replace(res[1] + res[2], '');
+    let otherExp = exp.replace(res[0], '');
     if (otherExp.startsWith('.')) {
       otherExp = otherExp.substring(1);
     }
     // 再次匹配得到下一级对象
     squareBracketsRegExp.test(res[2]);
-    const $2 = RegExp.$2;
-    return _parserProperty(otherExp, target[res[1]][$2]);
+    let $2 = RegExp.$2;
+    if (typeof $2 === 'string') {
+      const result = parseInt($2);
+      if(!Object.is(result,NaN)) {
+        $2 = result;
+      }
+    }
+    return _parserProperty(otherExp, target[$2] || target[res[1]][$2]  );
   }
   // 普通属性直接取值
   if (exp.indexOf('.') === -1) {

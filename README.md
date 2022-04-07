@@ -1,9 +1,10 @@
 # 解析属性表达式
 
 > 解析属性表达式从对象中读取属性
+
 ```javascript
 const parserProperty = require("parser-property");
-
+// 普通对象
 const obj = {
   message: '操作成功',
   code: 0,
@@ -54,5 +55,23 @@ console.log(parserProperty('obj1.a[0].b', obj)); // c
 console.log(parserProperty('obj1.a["0"].d.e[0]', obj)); // 1
 console.log(parserProperty('obj1.a["0"].d.e[1]', obj)); // undefined
 console.log(parserProperty('obj1.a["0"].d.e[`0`].c', obj)); // undefined
-
+// 复杂对象
+const otherObj = {
+  a: [0, [
+    {
+      b: {
+        c: 2,
+        d: [0, {
+          e: {
+            f: 'hello',
+            'hello_world': 'hello_world'
+          }
+        }
+        ]
+      }
+    }]]
+};
+console.log(parserProperty('a[1][0].b.d[1].e["hello_world"]', otherObj)); // hello_worrld
+console.log(parserProperty('a[1][`0`].b.d["1"].e["f"]', otherObj)); // hello
+console.log(parserProperty('a[1][`0`].b.d["0"]', otherObj)); // 0
 ```
