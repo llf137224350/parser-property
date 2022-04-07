@@ -48,8 +48,7 @@ function _parserProperty(exp, target) {
   }
   if (squareBracketsRegExp.test(exp)) {
     // [key/index]
-    const $2 = RegExp.$2;
-    return _parserProperty($2, target);
+    return _parserProperty(RegExp.$2, target);
   }
   // data[0]/data[0].fileUrl
   const res = arrRegExp.exec(exp) || squareBracketsStartRegExp.exec(exp);
