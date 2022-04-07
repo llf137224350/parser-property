@@ -60,14 +60,7 @@ function _parserProperty(exp, target) {
     }
     // 再次匹配得到下一级对象
     squareBracketsRegExp.test(res[2]);
-    let $2 = RegExp.$2;
-    if (typeof $2 === 'string') {
-      const result = parseInt($2);
-      if(!Object.is(result,NaN)) {
-        $2 = result;
-      }
-    }
-    return _parserProperty(otherExp, target[$2] || target[res[1]][$2]  );
+    return _parserProperty(otherExp, target[RegExp.$2] || target[res[1]][RegExp.$2]  );
   }
   // 普通属性直接取值
   if (exp.indexOf('.') === -1) {
