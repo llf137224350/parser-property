@@ -37,24 +37,24 @@ const obj = {
     }
   ]
 };
-console.log(parserProperty('message', obj)); // 操作成功
-console.log(parserProperty('[message]', obj)); // 操作成功
-console.log(parserProperty('["message"]', obj)); // 操作成功
-console.log(parserProperty('[`message`]', obj)); // 操作成功
-console.log(parserProperty('0', [123])); // 123
-console.log(parserProperty('[0]', [123])); // 123
-console.log(parserProperty('["0"]', [123])); // 123
-console.log(parserProperty('[`0`]', [123])); // 123
+console.log(parserProperty(obj, 'message')); // 操作成功
+console.log(parserProperty(obj, '[message]')); // 操作成功
+console.log(parserProperty(obj, '["message"]')); // 操作成功
+console.log(parserProperty(obj, '[`message`]')); // 操作成功
+console.log(parserProperty([123], '0', )); // 123
+console.log(parserProperty([123], '[0]')); // 123
+console.log(parserProperty([123], '["0"]')); // 123
+console.log(parserProperty([123], '[`0`]')); // 123
 
-console.log(parserProperty(`data[0]`, obj));
-console.log(parserProperty(`data[0].fileUrl`, obj)); // /g001/M00/01/27/oYYBAGHazNyAd74OAAAA-aHMoL0330.txt
-console.log(parserProperty('data[`1`].clientIp', obj)); // 58.16.15.245
+console.log(parserProperty(obj, `data[0]`));
+console.log(parserProperty(obj, `data[0].fileUrl`)); // /g001/M00/01/27/oYYBAGHazNyAd74OAAAA-aHMoL0330.txt
+console.log(parserProperty(obj, 'data[`1`].clientIp')); // 58.16.15.245
 
-console.log(parserProperty('obj1.a', obj)); // [ { b: 'c', d: { e: [Array] } } ]
-console.log(parserProperty('obj1.a[0].b', obj)); // c
-console.log(parserProperty('obj1.a["0"].d.e[0]', obj)); // 1
-console.log(parserProperty('obj1.a["0"].d.e[1]', obj)); // undefined
-console.log(parserProperty('obj1.a["0"].d.e[`0`].c', obj)); // undefined
+console.log(parserProperty(obj, 'obj1.a')); // [ { b: 'c', d: { e: [Array] } } ]
+console.log(parserProperty(obj, 'obj1.a[0].b')); // c
+console.log(parserProperty(obj, 'obj1.a["0"].d.e[0]')); // 1
+console.log(parserProperty(obj, 'obj1.a["0"].d.e[1]')); // undefined
+console.log(parserProperty(obj, 'obj1.a["0"].d.e[`0`].c')); // undefined
 // 复杂对象
 const otherObj = {
   a: [0, [
@@ -71,7 +71,7 @@ const otherObj = {
       }
     }]]
 };
-console.log(parserProperty('a[1][0].b.d[1].e["hello_world"]', otherObj)); // hello_worrld
-console.log(parserProperty('a[1][`0`].b.d["1"].e["f"]', otherObj)); // hello
-console.log(parserProperty('a[1][`0`].b.d["0"]', otherObj)); // 0
+console.log(parserProperty(otherObj, 'a[1][0].b.d[1].e["hello_world"]')); // hello_worrld
+console.log(parserProperty(otherObj, 'a[1][`0`].b.d["1"].e["f"]')); // hello
+console.log(parserProperty(otherObj, 'a[1][`0`].b.d["0"]')); // 0
 ```

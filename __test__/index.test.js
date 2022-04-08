@@ -33,37 +33,37 @@ const obj = {
 
 test('直接写属性读取对象', () => {
   const parserProperty = require('../');
-  expect(parserProperty('message', obj)).toBe(`操作成功`);
+  expect(parserProperty(obj, 'message')).toBe(`操作成功`);
 });
 
 test('方括号属性读取对象', () => {
   const parserProperty = require('../');
-  expect(parserProperty('[message]', obj)).toBe(`操作成功`);
+  expect(parserProperty(obj, '[message]')).toBe(`操作成功`);
 });
 
 test('方括号属性加引号读取对象', () => {
   const parserProperty = require('../');
-  expect(parserProperty('["message"]', obj)).toBe(`操作成功`);
+  expect(parserProperty(obj, '["message"]')).toBe(`操作成功`);
 });
 
 test('直接写索引读取数组', () => {
   const parserProperty = require('../');
-  expect(parserProperty('0', [123])).toBe(123);
+  expect(parserProperty([123], '0')).toBe(123);
 });
 
 test('方括号属性读取数组', () => {
   const parserProperty = require('../');
-  expect(parserProperty('[0]', [123])).toBe(123);
+  expect(parserProperty([123], '[0]')).toBe(123);
 });
 
 test('方括号属性加引号读取对象', () => {
   const parserProperty = require('../');
-  expect(parserProperty('["0"]', [123])).toBe(123);
+  expect(parserProperty([123], '["0"]')).toBe(123);
 });
 
 test('读取对象中的数组', () => {
   const parserProperty = require('../');
-  expect(parserProperty('data', obj)).toEqual([
+  expect(parserProperty(obj, 'data')).toEqual([
     {
       fileType: 1,
       fileName: 'M00/01/27/oYYBAGHazNyAd74OAAAA-aHMoL0330.txt',
@@ -85,7 +85,7 @@ test('读取对象中的数组', () => {
 
 test('读取对象中的数组指定索引', () => {
   const parserProperty = require('../');
-  expect(parserProperty('data[0]', obj)).toEqual({
+  expect(parserProperty(obj, 'data[0]')).toEqual({
     fileType: 1,
     fileName: 'M00/01/27/oYYBAGHazNyAd74OAAAA-aHMoL0330.txt',
     fileGroup: 'g001',
@@ -97,17 +97,17 @@ test('读取对象中的数组指定索引', () => {
 
 test('读取对象中的数组指定索引对应对象中的属性-1', () => {
   const parserProperty = require('../');
-  expect(parserProperty('data[0].fileUrl', obj)).toBe('/g001/M00/01/27/oYYBAGHazNyAd74OAAAA-aHMoL0330.txt');
+  expect(parserProperty(obj, 'data[0].fileUrl')).toBe('/g001/M00/01/27/oYYBAGHazNyAd74OAAAA-aHMoL0330.txt');
 });
 
 test('读取对象中的数组指定索引对应对象中的属性-2', () => {
   const parserProperty = require('../');
-  expect(parserProperty('data["1"].clientIp', obj)).toBe('58.16.15.245');
+  expect(parserProperty(obj, 'data["1"].clientIp')).toBe('58.16.15.245');
 });
 
 test('读取二级对象属性-1', () => {
   const parserProperty = require('../');
-  expect(parserProperty('obj1.a', obj)).toEqual([
+  expect(parserProperty(obj, 'obj1.a')).toEqual([
     {
       b: 'c',
       _d_c_1: {
@@ -117,10 +117,9 @@ test('读取二级对象属性-1', () => {
   ]);
 });
 
-// console.log(parserProperty('obj1.a[0].b', obj)); // c
 test('读取二级对象属性-2', () => {
   const parserProperty = require('../');
-  expect(parserProperty('obj1.a[0]', obj)).toEqual({
+  expect(parserProperty(obj, 'obj1.a[0]')).toEqual({
     b: 'c',
     _d_c_1: {
       e: [1]
@@ -130,17 +129,17 @@ test('读取二级对象属性-2', () => {
 
 test('读取多级对象属性 - 1', () => {
   const parserProperty = require('../');
-  expect(parserProperty('obj1.a[0]._d_c_1.e[0]', obj)).toBe(1);
+  expect(parserProperty(obj, 'obj1.a[0]._d_c_1.e[0]')).toBe(1);
 });
 
 test('读取多级对象属性 - 2', () => {
   const parserProperty = require('../');
-  expect(parserProperty('obj1.a[0]._d_c_1.e[1]', obj)).toBe(undefined);
+  expect(parserProperty(obj, 'obj1.a[0]._d_c_1.e[1]')).toBe(undefined);
 });
 
 test('读取多级对象属性 - 3', () => {
   const parserProperty = require('../');
-  expect(parserProperty('obj1.a[0]._d_c_1.e[0].c', obj)).toBe(undefined);
+  expect(parserProperty(obj, 'obj1.a[0]._d_c_1.e[0].c')).toBe(undefined);
 });
 
 const otherObj = {
@@ -151,7 +150,7 @@ const otherObj = {
         d: [0, {
           e: {
             f: 'hello',
-            'hello_world':'hello_world'
+            'hello_world': 'hello_world'
           }
         }
         ]
@@ -161,15 +160,15 @@ const otherObj = {
 
 test('复杂表达式 - 1', () => {
   const parserProperty = require('../');
-  expect(parserProperty('a[1][0].b.d[1].e["hello_world"]', otherObj)).toBe('hello_world');
+  expect(parserProperty(otherObj, 'a[1][0].b.d[1].e["hello_world"]')).toBe('hello_world');
 });
 
 test('复杂表达式 - 2', () => {
   const parserProperty = require('../');
-  expect(parserProperty('a[1][`0`].b.d["1"].e["f"]', otherObj)).toBe('hello');
+  expect(parserProperty(otherObj, 'a[1][`0`].b.d["1"].e["f"]')).toBe('hello');
 });
 
 test('复杂表达式 - 3', () => {
   const parserProperty = require('../');
-  expect(parserProperty('a[1][`0`].b.d["0"]', otherObj)).toBe(0);
+  expect(parserProperty(otherObj, 'a[1][`0`].b.d["0"]')).toBe(0);
 });
