@@ -31,7 +31,6 @@ function isArray(target) {
  * @returns
  */
 function _parserProperty(exp, target) {
-  debugger
   // 方括号
   const squareBracketsRegExp = /^\[(\"|\'|\`)?([_a-zA-Z0-9]+)(\"|\'|\`)?\]$/g;
   const squareBracketsStartRegExp = /^\[(\'|\`|\")?(\d+|\w+)(\'|\`|\")?\]/g;
